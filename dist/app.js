@@ -1,0 +1,38 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const auth_routes_1 = __importDefault(require("./modules/auth/auth.routes"));
+const user_routes_1 = __importDefault(require("./modules/users/user.routes"));
+const error_middleware_1 = require("./middlewares/error.middleware");
+const node_routes_1 = __importDefault(require("./modules/nodes/node.routes"));
+const role_routes_1 = __importDefault(require("./modules/roles/role.routes"));
+const resource_routes_1 = __importDefault(require("./modules/resources/resource.routes"));
+const permission_routes_1 = __importDefault(require("./modules/permissions/permission.routes"));
+const membership_routes_1 = __importDefault(require("./modules/memberships/membership.routes"));
+const policy_routes_1 = __importDefault(require("./modules/policies/policy.routes"));
+const audit_routes_1 = __importDefault(require("./modules/audit/audit.routes"));
+const test_routes_1 = __importDefault(require("./modules/test/test.routes"));
+const iam_routes_1 = __importDefault(require("./modules/iam/iam.routes"));
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.get('/health', (req, res) => {
+    res.json({ status: 'OK' });
+});
+app.use('/auth', auth_routes_1.default);
+app.use('/users', user_routes_1.default);
+app.use('/nodes', node_routes_1.default);
+app.use('/iam', iam_routes_1.default);
+app.use('/roles', role_routes_1.default);
+app.use('/resources', resource_routes_1.default);
+app.use('/permissions', permission_routes_1.default);
+app.use('/audit-logs', audit_routes_1.default);
+app.use('/memberships', membership_routes_1.default);
+app.use('/test', test_routes_1.default);
+app.use('/policies', policy_routes_1.default);
+app.use(error_middleware_1.errorMiddleware);
+exports.default = app;
